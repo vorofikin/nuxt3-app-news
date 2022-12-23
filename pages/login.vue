@@ -13,9 +13,14 @@
             :loading="isLoading"
             label="Email"
             required
+            clearable
         ></v-text-field>
         <v-text-field
             v-model="userCreds.password"
+            name="input-10-1"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
+            @click:append="showPassword = !showPassword"
             :loading="isLoading"
             label="Password"
             required
@@ -59,6 +64,7 @@ export default {
       },
       UserStore: useUserStore(),
       AppStore: useAppStore(),
+      showPassword: false,
     }
   },
   methods: {
@@ -73,6 +79,7 @@ export default {
     },
     async login() {
       this.isLoading = true;
+      this.AppStore.resetErrors();
       try {
         await this.UserStore.login(this.userCreds);
         this.$router.push('/');
@@ -83,7 +90,7 @@ export default {
       }
     },
     reset () {
-      this.$refs.form.reset()
+      this.$refs.form.reset();
     }
   }
 }

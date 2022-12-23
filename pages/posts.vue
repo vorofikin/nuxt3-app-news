@@ -1,52 +1,61 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col class="text-center" cols="12" sm="8" md="8">
-      <v-card v-for="news in posts">
-        <v-card-title>
-          {{ news.title }}
-        </v-card-title>
-        <v-card-text
-        align="left">
-          {{ news.text }}
-        </v-card-text>
-<!--        <v-img-->
-<!--          src="https://traktorist.ua/media/brands/1276/samedeutz-fahrgrouplogo-553175.jpg">-->
-<!--        </v-img>-->
-        <v-rating
-          v-model="news.rating"
-          hover
-          half-increments
-          ></v-rating>
-        <pre>{{ news.rating }}</pre>
-      </v-card>
-    </v-col>
-  </v-row>
+  <Head>
+    <title>News</title>
+  </Head>
 
+  <PostCard
+    :posts="posts"
+    class="hidden-sm-and-down"
+  ></PostCard>
+
+  <MobilePostCard
+    class="d-md-none"
+    :posts="posts"
+  ></MobilePostCard>
 
 </template>
 
 <script>
-// const components = import.meta.static("~/news/firstpost.json");
-import news from '~/assets/news/firstpost.json';
-import {useAppStore} from "../store/AppStore";
+import { useAppStore } from "../store/AppStore";
+import Post from "../components/Post";
+import { usePostStore } from "../store/PostStore";
+import { useUserStore } from "../store/UserStore";
 export default {
-  name: 'InspirePage',
+  name: 'NewsPage',
+  components: { Post },
   data() {
     return {
-      posts: null,
-      rating: 2.5,
       AppStore: useAppStore(),
+      PostStore: usePostStore(),
+      UserStore: useUserStore(),
+      // width: 960,
     }
   },
   async created() {
     try {
-      const resp = await $fetch("api/posts", {
-        method: "post"
-      });
-      this.posts = resp;
+      await this.PostStore.fetchPosts();
     } catch (e) {
-      // this.AppStore.set
+      this.AppStore.setFetchPostsError(e);
     }
-  }
+  },
+  computed: {
+    posts() {
+      return this.PostStore.$state.posts;
+    },
+    isAuth() {
+      return this.UserStore.$state.isAuth;
+    },
+    width: {
+      set(v) {
+        this.width = v;
+      },
+      get() {
+        return this.width;
+      }
+    }
+  },
+  // mounted() {
+  //   this.width = window.innerWidth;
+  // },
 }
 </script>

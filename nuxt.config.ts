@@ -6,12 +6,22 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         mongoUrl: process.env.MONGO_URL,
+        CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+        CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+        CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
     },
     nitro: {
         plugins: ["~/server/index.js"],
     },
     modules: [
         '@pinia/nuxt',
-        '@pinia-plugin-persistedstate/nuxt'
+        '@pinia-plugin-persistedstate/nuxt',
+        '@nuxt/image-edge',
     ],
+    image: {
+        cloudinary: {
+            baseURL: 'https://res.cloudinary.com/dh8nk2ae4/image/upload/v1670073043/',
+        }
+    },
+    ssr: true
 })

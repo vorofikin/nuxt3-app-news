@@ -13,7 +13,7 @@
             :rules="firstNameRules"
             :loading="isLoading"
             label="First name"
-            required
+            clearable
         ></v-text-field>
 
         <v-text-field
@@ -22,7 +22,7 @@
             :rules="lastNameRules"
             :loading="isLoading"
             label="Last name"
-            required
+            clearable
         ></v-text-field>
 
         <v-text-field
@@ -30,12 +30,15 @@
             :rules="emailRules"
             :loading="isLoading"
             label="E-mail"
-            required
+            clearable
         ></v-text-field>
 
         <v-text-field
           v-model="user.password"
-          :type="password"
+          name="input-10-1"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          @click:append="showPassword = !showPassword"
           :loading="isLoading"
           label="Password"
         ></v-text-field>
@@ -45,7 +48,6 @@
             :rules="[v => !!v || 'You must agree to continue!']"
             :loading="isLoading"
             label="Do you agree?"
-            required
         ></v-checkbox>
 
         <v-btn
@@ -106,6 +108,7 @@ export default {
       error: null,
       UserStore: useUserStore(),
       AppStore: useAppStore(),
+      showPassword: false
     }
   },
   methods: {

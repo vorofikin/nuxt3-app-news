@@ -1,8 +1,7 @@
 <template>
   <v-navigation-drawer
-      expand-on-hover
-      floating
-      app
+    v-model="drawer"
+    temporary
   >
 
     <v-list>
@@ -14,11 +13,11 @@
 
       <v-list-item v-else>
         <v-btn
-        to="/registration">Sign up
+          to="/registration">Sign up
         </v-btn>
 
         <v-btn
-        to="/login">Login
+          to="/login">Login
         </v-btn>
       </v-list-item>
     </v-list>
@@ -27,22 +26,22 @@
 
     <v-list>
       <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-          active-color="primary"
-          variant="plain"
+        v-for="(item, i) in items"
+        :key="i"
+        :to="item.to"
+        router
+        exact
+        active-color="primary"
+        variant="plain"
       >
-          <template v-slot:prepend>
-            <v-icon :icon="item.icon"
-            ></v-icon>
-          </template>
+        <template v-slot:prepend>
+          <v-icon :icon="item.icon"
+          ></v-icon>
+        </template>
 
-          <v-list-item-title>
-            {{ item.title }}
-          </v-list-item-title>
+        <v-list-item-title>
+          {{ item.title }}
+        </v-list-item-title>
       </v-list-item>
       <v-list-item
         v-if="isAuth"
@@ -68,11 +67,11 @@
     <v-footer v-if="isAuth">
       <v-list>
         <v-list-item
-            router
-            exact
-            active-color="primary"
-            variant="plain"
-            @click="signOut"
+          router
+          exact
+          active-color="primary"
+          variant="plain"
+          @click="signOut"
         >
           <template v-slot:prepend>
             <v-icon icon="mdi-cancel"></v-icon>
@@ -91,11 +90,10 @@ import { useUserStore } from "../store/UserStore";
 export default {
   name: "NavBar",
   props: {
-    drawer: Boolean,
-    clipped: Boolean,
     username: String,
     email: String,
-    isAuth: Boolean
+    isAuth: Boolean,
+    drawer: Boolean
   },
   data() {
     return {

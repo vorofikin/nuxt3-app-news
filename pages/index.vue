@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <title>Welcome</title>
+  </Head>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="8">
       <v-card>

@@ -39,12 +39,14 @@
 
 <script>
 import { useTheme } from "vuetify";
-import {useAppStore} from "../store/AppStore";
+import {useAppStore} from "~/store/AppStore";
+import { useUserStore } from "~/store/UserStore";
 export default {
   data() {
     return {
       appStore: useAppStore(),
       theme: useTheme(),
+      UserStore: useUserStore(),
     }
   },
   methods: {
@@ -55,7 +57,7 @@ export default {
       this.appStore.setThemeMode(this.theme.global.name);
     },
     async deleteAccount() {
-
+      await this.UserStore.deleteUserAccount();
     }
   },
   computed: {

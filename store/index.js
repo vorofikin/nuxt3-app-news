@@ -13,7 +13,6 @@ export const mutations = {
 
 export const actions = {
     setThemeMode({ commit }, payload) {
-        console.log("actions");
         commit('setThemeMode', payload);
     }
 };
